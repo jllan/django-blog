@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
+{% endblock %}
+{% block section %}
+    <section class="category-list container col s8 m8 l8 ">
+        <div class="row">
+
+            <section class="col s9 m9 l9 push-s9 article-list-left">
+                <ul>
+                    {% for archive in archive_list %}
+                        <li>
+                            <span>{{ archive.created_time }}</span>
+                            <a href="{% url 'article' archive.url %}">{{ archive.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            {% include 'right-info.html' %}
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(".button-collapse").sideNav();
+    </script>
+{% endblock %}

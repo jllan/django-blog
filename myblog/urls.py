@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from blog import views as blog_views
 
 urlpatterns = [
+    url(r'^$', blog_views.IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
+    url(r'^article/(?P<article_url>.*)/$', blog_views.ArticleView.as_view(), name='article'),
+    # url(r'^category/(?P<category_name>.+)/$', blog_views.CategoryListVIew.as_view(), name='category'),
+    url(r'^about/$', blog_views.AboutView.as_view(), name='about'),
 ]

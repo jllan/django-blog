@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block section %}
+    <section class="article-list container col l8 ">
+        <div class="row">
+            <section class="col l9 s12 article-list-left">
+                <ul>
+                    {# 文章列表 #}
+                    {% for article in article_list.object_list %}
+                         <div class="row">
+                            <div class="col s12 m10">
+                              <h2 class="header"><a href="{% url 'article' article.url %}">{{ article.title }}</a></h2>
+                              <div class="card">
+
+                                <div class="card-action">
+                                  <div class="article-meta">
+                                    {# 文章创建时间 #}
+                                    <i class="material-icons">today</i>{{ article.created_time|date:"Y-m-d H:i" }}
+                                    {# 文章分类 #}
+                                    <i class="material-icons">class<a href="#">{{ article.category__name }}</a></i>
+                                    {# 文章标签 #}
+                                    <i class="material-icons">label</i>
+                                    {% for tag in article.tags %}
+                                        <a href="#">{{ tag }}</a>
+                                    {% endfor %}
+                                  </div>
+                                </div>
+                                <div class="card-content">
+                                  <div id="content{{ article.id }}" name="article">
+                                      <p>{{ article.abstract }}</p>
+                                      <!--<p>{{ article.body | safe | slice:'10'}}</p>-->
+                                      <a class="waves-effect waves-teal btn-flat" href="{% url 'article' article.url %}">...继续阅读</a>
+                                  </div>
+                                </div>
+                                <div class="card-action">
+                                  <a href="#">This is a link</a>
+                                </div>
+                              </div>
+                            </div>
+                         </div>
+
+
+                    {% endfor %}
+                </ul>
+            </section>
+            <section class="col l12">
+                <ul class="pagination">
+                    {# 上一页 #}
+                    {% if article_list.has_previous %}
+                        <li class="waves-effect"><a href="?{{ article_list.previous_page_number.querystring }}"><i
+                                class="material-icons">chevron_left</i></a>
+                        </li>
+                    {% endif %}
+                    {% for page in article_list.pages %}
+                        {% if page %}
+                            {% ifequal page article_list.number %}
+                                {# 当前页页 #}
+                                <li class="active"><a>{{ page }}</a></li>
+                            {% else %}
+                                {# 指定页 #}
+                                <li class="waves-effect"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% else %}
+                            <li class="waves-effect"><a href="#">...</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {# 下一页 #}
+                    {% if article_list.has_next %}
+                        <li class="waves-effect"><a href="?{{ article_list.next_page_number.querystring }}"><i
+                                class="material-icons">chevron_right</i></a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </section>
+        </div>
+    </section>
+{% endblock %}
