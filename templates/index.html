@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load markdown_deux_tags %}
 
 {% block section %}
     <section class="article-list container col l8 ">
@@ -18,23 +19,24 @@
                                     {# 文章创建时间 #}
                                     <i class="material-icons">today</i>{{ article.created_time|date:"Y-m-d H:i" }}
                                     {# 文章分类 #}
-                                    <i class="material-icons">class<a href="#">{{ article.category__name }}</a></i>
+                                    <i class="material-icons">class<a href="{% url 'category' article.category__name %}">{{ article.category__name }}</a></i>
                                     {# 文章标签 #}
                                     <i class="material-icons">label</i>
                                     {% for tag in article.tags %}
-                                        <a href="#">{{ tag }}</a>
+                                        <a href="{% url 'tag' tag %}">{{ tag }}</a>
                                     {% endfor %}
                                   </div>
                                 </div>
                                 <div class="card-content">
                                   <div id="content{{ article.id }}" name="article">
-                                      <p>{{ article.abstract }}</p>
+                                      <p>{{ article.abstract|markdown }}</p>
                                       <!--<p>{{ article.body | safe | slice:'10'}}</p>-->
                                       <a class="waves-effect waves-teal btn-flat" href="{% url 'article' article.url %}">...继续阅读</a>
                                   </div>
                                 </div>
                                 <div class="card-action">
-                                  <a href="#">This is a link</a>
+                                    <a class="tooltipped btn-flat disabled" data-position="bottom" data-delay="50" data-tooltip="浏览量"><i class="material-icons left">pageview</i>1</a>
+                                    <a class="tooltipped btn-flat" data-position="bottom" data-delay="50" data-tooltip="点赞量"><i class="material-icons left">thumb_up</i>1</a>
                                 </div>
                               </div>
                             </div>
@@ -75,4 +77,5 @@
             </section>
         </div>
     </section>
+
 {% endblock %}

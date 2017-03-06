@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^$', blog_views.IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^article/(?P<article_url>.*)/$', blog_views.ArticleView.as_view(), name='article'),
-    # url(r'^category/(?P<category_name>.+)/$', blog_views.CategoryListVIew.as_view(), name='category'),
+    url(r'^category/(?P<category_name>.+)/$', blog_views.CategoryListVIew.as_view(), name='category'),
+    url(r'^tag/(?P<tag_name>.+)/$', blog_views.TagListVIew.as_view(), name='tag'),
     url(r'^about/$', blog_views.AboutView.as_view(), name='about'),
 ]

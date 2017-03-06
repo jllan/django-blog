@@ -1,62 +1,35 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load markdown_deux_tags %}
 {% block title %}{{ title }}{% endblock %}
-{% block style %}
-    <link rel="stylesheet" href="{% static 'css/article.css' %}">
-{% endblock %}
 {% block section %}
     <section class="container col s8 m8 l8  article-centent">
-        <article>
-            <header>
-                <h1>{{ article.title }}</h1>
-                <div class="article-meta">
-                    <i class="material-icons">today</i>{{ article.created_time|date:"Y-m-d H:i" }}
-                    {# 文章分类 #}
-                    <i class="material-icons">class</i><a href="#">{{ article.category }}</a>
-                    {# 文章标签 #}
-                    <i class="material-icons">label</i>
-                    {% for tag in tags %}
-                        <a href="#">{{ tag }}</a>
-                    {% endfor %}
+    <div class="row">
+        <div class="col s12 m10">
+          <h2 class="header"><a href="{% url 'article' article.url %}">{{ article.title }}</a></h2>
+          <div class="card">
 
-                </div>
-            </header>
-            <div class="article_body">
-                <div id="content_body">
-
-                    <textarea class="hide">{{ article.body }}</textarea>
-                </div>
+            <div class="card-action">
+              <div class="article-meta">
+                {# 文章创建时间 #}
+                <i class="material-icons">today</i>{{ article.created_time|date:"Y-m-d H:i" }}
+                {# 文章分类 #}
+                <i class="material-icons">class<a href="{% url 'category' article.category %}">{{ article.category }}</a></i>
+                {# 文章标签 #}
+                <i class="material-icons">label</i>
+                {% for tag in tags %}
+                    <a href="{% url 'tag' tag %}">{{ tag }}</a>
+                {% endfor %}
+              </div>
             </div>
-            <div class="article-copyright">
-                <p>当前文章非永久URL：{{ article.url }}</p>
-                <p>创建时间：{{ article.created_time }}</p>
-                <p>更新时间：{{ article.last_modified_time }}</p>
+            <div class="card-content">
+                <p>{{ article.body|markdown }}</p>
             </div>
-        </article>
+            <div class="card-action">
+                <a class="red waves-effect waves-light btn"><i class="material-icons left">thumb_up</i>喜欢</a>
+            </div>
+          </div>
+        </div>
+    </div>
     </section>
-{% endblock %}
-{% block javascript %}
-    <script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
-    <link rel="stylesheet" href="/static/lib/editor.md/editormd.css">
-    <script src="/static/lib/editor.md/editormd.js"></script>
-    <script src="/static/lib/editor.md/lib/prettify.min.js"></script>
-    <script src="/static/lib/editor.md/lib/raphael.min.js"></script>
-    <script src="/static/lib/editor.md/lib/underscore.min.js"></script>
-    <script src="/static/lib/editor.md/lib/sequence-diagram.min.js"></script>
-    <script src="/static/lib/editor.md/lib/flowchart.min.js"></script>
-    <script src="/static/lib/editor.md/lib/jquery.flowchart.min.js"></script>
-
-    <script>
-        $(".button-collapse").sideNav();
-
-        var editor = editormd.markdownToHTML('content_body', {
-            htmlDecode: "style,script,iframe",
-            emoji: true,
-            taskList: true,
-            tex: true,  // 默认不解析
-            flowChart: true,  // 默认不解析
-            sequenceDiagram: true  // 默认不解析
-        });
-    </script>
-
 {% endblock %}

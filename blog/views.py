@@ -54,6 +54,39 @@ class ArticleView(View):
         return render(request, 'article.html', locals())
 
 
+class CategoryListVIew(View):
+    def get(self, request, category_name):
+        archive_list = list(
+            Article.objects.filter(category__name=category_name, status=0).values('url', 'title', 'created_time'))
+        if len(archive_list) == 0:
+            return HttpResponseRedirect('/404')
+
+        category_list = Category.objects.all()
+        # 添加分类次数
+        for category in category_list:
+            count = Article.objects.filter(category__id=category.id).count()
+            category.count = count
+        # 友情链接
+        links = Link.objects.all()
+        return render(request, 'category.html', locals())
+
+class TagListVIew(View):
+    def get(self, request, tag_name):
+        archive_list = list(
+            Article.objects.filter(tags__name=tag_name, status=0).values('url', 'title', 'created_time'))
+        if len(archive_list) == 0:
+            return HttpResponseRedirect('/404')
+
+        category_list = Category.objects.all()
+        # 添加分类次数
+        for category in category_list:
+            count = Article.objects.filter(category__id=category.id).count()
+            category.count = count
+        # 友情链接
+        links = Link.objects.all()
+        return render(request, 'category.html', locals())
+
+
 class AboutView(View):
     def get(self, request):
         article = Article.objects.filter(id=1).first()
