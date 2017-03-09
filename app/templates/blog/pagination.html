@@ -1,0 +1,27 @@
+<ul class="pagination">
+    {# 上一页 #}
+    {% if article_list.has_previous %}
+        <li class="waves-effect"><a href="?page={{ article_list.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+    {% for page in pages %}
+        {% if page %}
+            {% ifequal page article_list.number %}
+                {# 当前页页 #}
+                <li class="active"><a>{{ page }}</a></li>
+            {% else %}
+                {# 指定页 #}
+                <li class="waves-effect"><a href="?page={{ page }}">{{ page }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li class="waves-effect"><a href="#">...</a></li>
+        {% endif %}
+    {% endfor %}
+    {# 下一页 #}
+    {% if article_list.has_next %}
+        <li class="waves-effect"><a href="?page={{ article_list.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+        <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+</ul>
