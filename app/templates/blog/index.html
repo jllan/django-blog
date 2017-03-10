@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% load staticfiles %}
+{% load custom_markdown %}
 
 {% block content %}
     <section class="container">
@@ -42,7 +43,7 @@
 
                                 <div class="card-content">
                                     <hr>
-                                    <p>{{ article.body | safe | truncatewords:10}}</p>
+                                    <p>{{ article.body | custom_markdown | truncatewords:10}}</p>
                                     <!--<p>{{ article.abstract }}</p>-->
                                     <a class="waves-effect waves-teal btn-flat" href="{% url 'app:detail' article.pk %}">...继续阅读</a>
                                 </div>

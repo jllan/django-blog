@@ -4,7 +4,7 @@ from .forms import BlogCommentForm
 from django.shortcuts import get_object_or_404, redirect, get_list_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-import markdown
+# import markdown2
 import re
 import logging
 
@@ -24,8 +24,8 @@ class IndexView(ListView):
         Returns:
         """
         article_list = Article.objects.filter(status='0')
-        for article in article_list:
-            article.body = markdown.markdown(article.body,)
+        # for article in article_list:
+        #     article.body = markdown2.markdown(article.body,)
         return article_list
 
     # 为上下文添加额外的变量，以便在模板中访问
@@ -49,8 +49,8 @@ class CategoryView(ListView):
 
     def get_queryset(self):
         article_list = Article.objects.filter(category=self.kwargs['cate_id'], status='0')
-        for article in article_list:
-            article.body = markdown.markdown(article.body,)
+        # for article in article_list:
+        #     article.body = markdown2.markdown(article.body,)
         return article_list
 
     def get_context_data(self, **kwargs):
@@ -79,8 +79,8 @@ class TagView(ListView):
         根据指定的标签名获得该标签下的全部文章
         """
         article_list = Article.objects.filter(tags=self.kwargs['tag_id'], status='0')
-        for article in article_list:
-            article.body = markdown.markdown(article.body, extras=['fenced-code-blocks'], )
+        # for article in article_list:
+        #     article.body = markdown2.markdown(article.body, extras=['fenced-code-blocks'], )
         return article_list
 
     def get_context_data(self, **kwargs):
@@ -116,11 +116,7 @@ class ArticleDetailView(DetailView):
         # 点击一次阅读量增加一次
         obj.views += 1
         obj.save()
-        obj.body = markdown.markdown(obj.body, safe_mode='escape',
-        extensions=[
-            'markdown.extensions.nl2br',
-            'markdown.extensions.fenced_code'
-        ])
+        # obj.body = markdown2.markdown(obj.body, extras=['fenced-code-blocks'],)
         return obj
 
     # 新增form到上下文
@@ -161,8 +157,8 @@ def blog_search(request,):
         for article in article_list:
             if re.findall(search_for, article.title):
                 results.append(article)
-        for article in results:
-            article.body = markdown.markdown(article.body, )
+        # for article in results:
+        #     article.body = markdown2.markdown(article.body, )
         tag_list = Tag.objects.all().order_by('name')
         return render(request, 'blog/search.html', {'article_list': results,
                                                     'category_list': category_list,
