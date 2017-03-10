@@ -8,14 +8,15 @@ class BlogCommentForm(forms.ModelForm):
         fields = ['user_name', 'body']
         widgets = {
             'user_name': forms.TextInput(attrs={
-                'class': 'form-control',
+                'class': 'validate',
                 'placeholder': '请输入昵称',
-                'aria-describedby': 'sizing-addon1',
+                'aria-describedby': 'sizing-addon1'
             }),
-            'body': forms.Textarea(attrs={'placeholder': '让我来说两句',
-                                          'class': 'form-control',
-                                          'rows': 4,
-                                          }),
+            'body': forms.Textarea(attrs={
+                'placeholder': '让我来说两句',
+                'class': 'validate materialize-textarea',
+                'rows': 2
+            }),
         }
 
 
