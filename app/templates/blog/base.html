@@ -40,6 +40,18 @@
             <li><a href="{% url 'app:index' %}">首页</a></li>
             <li><a href="{% url 'app:about' %}">关于</a></li>
           </ul>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li>
+                <form id="search_form" class="col s12" action="/search/" method="get">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                      <input id="search" type="text" value="" name="search_for">
+                    </div>
+                  </div>
+                </form>
+              </li>
+          </ul>
           <ul class="side-nav" id="mobile-demo">
             <li><a href="{% url 'app:index' %}">首页</a></li>
             <li><a href="{% url 'app:about' %}">关于</a></li>

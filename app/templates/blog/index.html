@@ -19,8 +19,8 @@
                 <ul>
                     {# 文章列表 #}
                     {% load paginate_tags %}
-                    {% paginate article_list 8 %}
-                    {% for article in article_list.object_list %}
+                    {% paginate article_list 2 %}
+                    {% for article in article_list %}
                          <div class="row">
                             <div class="col s12 m12">
                               <h3><a href="{% url 'app:detail' article.pk %}">{{ article.title }}</a></h3>

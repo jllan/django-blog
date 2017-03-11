@@ -129,8 +129,6 @@ class ArticleDetailView(DetailView):
 
 
 
-
-
 def CommentView(request, article_id):
     if request.method == 'POST':
         form = BlogCommentForm(request.POST)
@@ -147,9 +145,7 @@ def CommentView(request, article_id):
 
 
 def blog_search(request,):
-
     search_for = request.GET['search_for']
-
     if search_for:
         results = []
         article_list = get_list_or_404(Article)
@@ -160,15 +156,15 @@ def blog_search(request,):
         # for article in results:
         #     article.body = markdown2.markdown(article.body, )
         tag_list = Tag.objects.all().order_by('name')
-        return render(request, 'blog/search.html', {'article_list': results,
-                                                    'category_list': category_list,
-                                                    'tag_list': tag_list})
+        context = {
+            'article_list': results,
+            'category_list': category_list,
+            'tag_list': tag_list,
+        }
+
+        return render(request, 'blog/index.html', context)
     else:
         return redirect('app:index')
-
-
-def thanks(request,):
-    return render(request, 'blog/thanks.html')
 
 def about(request,):
     return render(request, 'blog/about.html')
