@@ -29,7 +29,6 @@ class IndexView(ListView):
         return article_list
 
     # 为上下文添加额外的变量，以便在模板中访问
-
     def get_context_data(self, **kwargs):
         category_list = Category.objects.all().order_by('name')
         for category in category_list:
